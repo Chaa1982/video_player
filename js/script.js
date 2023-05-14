@@ -12,38 +12,14 @@ window.addEventListener("load", () => {
     {
       src: "../videos/islands.mp4",
       title: "Islands",
-      author: getData().then((data) => {
-        h5.textContent = data[curentVideoIndex].author;
-        return this;
-      }),
-      description: getData().then((data) => {
-        h6.textContent = data[curentVideoIndex].text;
-        return this;
-      }),
     },
     {
       title: "Mountains",
       src: "../videos/mountains.mp4",
-      author: getData().then((data) => {
-        h5.textContent = data[curentVideoIndex].author;
-        return this;
-      }),
-      description: getData().then((data) => {
-        h6.textContent = data[curentVideoIndex].text;
-        return this;
-      }),
     },
     {
       title: "Sample",
       src: "../videos/sample.mp4",
-      author: getData().then((data) => {
-        h5.textContent = data[curentVideoIndex].author;
-        return this;
-      }),
-      description: getData().then((data) => {
-        h6.textContent = data[curentVideoIndex].text;
-        return this;
-      }),
     },
   ];
   
@@ -59,6 +35,8 @@ window.addEventListener("load", () => {
       const {  src, title } = videos[index];
       videoElement.src = src;
       h1.textContent = title;
+      addAuthorAndDescription(index);
+      
       videoElement.play();
     };
     delay ? setTimeout(() => action(), delay) : action();
@@ -84,10 +62,17 @@ window.addEventListener("load", () => {
     }
   });
 
-  async function getData() {
+  async function getData(index) {
     let response = await fetch(`https://type.fit/api/quotes`);
     const data = await response.json();
-    
-    return data;
+    console.log("AllData", data[index])
+    return data[index];
+  }
+
+  function addAuthorAndDescription(index) {
+    getData(index).then((data) => {
+      h5.textContent = Object.values(data)[1];
+      h6.textContent = Object.values(data)[0];
+    })
   }
 });
