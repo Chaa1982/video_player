@@ -4,26 +4,43 @@ window.addEventListener("load", () => {
   const nextBtn = document.querySelector("#next");
   const h1 = document.querySelector("h1");
   const h5 = document.querySelector("h5");
+  const h6 = document.querySelector("h6");
+
+  let curentVideoIndex = 0;
 
   const videos = [
     {
       title: "Islands",
       src: "../videos/islands.mp4",
-      description: "Це відео про мальовничі острови. Нажаль автор не відомий",
+      author: getData().then((data) => {
+        h5.textContent = data[curentVideoIndex].author;
+      }),
+      description: getData().then((data) => {
+        h6.textContent = data[curentVideoIndex].text;
+      }),
     },
     {
       title: "Mountains",
       src: "../videos/mountains.mp4",
-      description: "Це відео про мальовничі гори. Нажаль автор не відомий",
+      author: getData().then((data) => {
+        h5.textContent = data[curentVideoIndex].author;
+      }),
+      description: getData().then((data) => {
+        h6.textContent = data[curentVideoIndex].text;
+      }),
     },
     {
       title: "Sample",
       src: "../videos/sample.mp4",
-      description:
-        "Це відео про мальовничі місця нашоги міста. Нажаль автор не відомий",
+      author: getData().then((data) => {
+        h5.textContent = data[curentVideoIndex].author;
+      }),
+      description: getData().then((data) => {
+        h6.textContent = data[curentVideoIndex].text;
+      }),
     },
   ];
-  let curentVideoIndex = 0;
+  
 
   setVideo(curentVideoIndex);
 
@@ -33,10 +50,12 @@ window.addEventListener("load", () => {
 
   function setVideo(index, delay = 0) {
     const action = () => {
-      const { title, src, description } = videos[index];
+      const { title, src, author, description } = videos[index];
+
       videoElement.src = src;
       h1.textContent = title;
-      h5.textContent = description
+      h5.textContent = author;
+      h6.textContent = description;
       videoElement.play();
     };
     delay ? setTimeout(() => action(), delay) : action();
@@ -61,4 +80,11 @@ window.addEventListener("load", () => {
       setVideo(curentVideoIndex, 1000);
     }
   });
+
+  async function getData() {
+    let response = await fetch(`https://type.fit/api/quotes`);
+    const data = await response.json();
+    console.log("Function DATA", data)
+    return data;
+  }
 });
