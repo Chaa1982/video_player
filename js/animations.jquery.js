@@ -1,5 +1,4 @@
 window.addEventListener("load", () => {
-  //$("#video").css({opacity: 0});
   $("#video, h1, h5, h6").fadeIn(1000);
   $("#prev, #next").on("click", () => {
     $("#video").fadeOut(1000).fadeIn(1000);

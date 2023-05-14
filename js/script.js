@@ -10,13 +10,15 @@ window.addEventListener("load", () => {
 
   const videos = [
     {
-      title: "Islands",
       src: "../videos/islands.mp4",
+      title: "Islands",
       author: getData().then((data) => {
         h5.textContent = data[curentVideoIndex].author;
+        return this;
       }),
       description: getData().then((data) => {
         h6.textContent = data[curentVideoIndex].text;
+        return this;
       }),
     },
     {
@@ -24,9 +26,11 @@ window.addEventListener("load", () => {
       src: "../videos/mountains.mp4",
       author: getData().then((data) => {
         h5.textContent = data[curentVideoIndex].author;
+        return this;
       }),
       description: getData().then((data) => {
         h6.textContent = data[curentVideoIndex].text;
+        return this;
       }),
     },
     {
@@ -34,9 +38,11 @@ window.addEventListener("load", () => {
       src: "../videos/sample.mp4",
       author: getData().then((data) => {
         h5.textContent = data[curentVideoIndex].author;
+        return this;
       }),
       description: getData().then((data) => {
         h6.textContent = data[curentVideoIndex].text;
+        return this;
       }),
     },
   ];
@@ -50,12 +56,9 @@ window.addEventListener("load", () => {
 
   function setVideo(index, delay = 0) {
     const action = () => {
-      const { title, src, author, description } = videos[index];
-
+      const {  src, title } = videos[index];
       videoElement.src = src;
       h1.textContent = title;
-      h5.textContent = author;
-      h6.textContent = description;
       videoElement.play();
     };
     delay ? setTimeout(() => action(), delay) : action();
@@ -84,7 +87,7 @@ window.addEventListener("load", () => {
   async function getData() {
     let response = await fetch(`https://type.fit/api/quotes`);
     const data = await response.json();
-    console.log("Function DATA", data)
+    
     return data;
   }
 });
